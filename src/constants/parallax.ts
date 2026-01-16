@@ -13,16 +13,4 @@ export const PARALLAX_CONFIG = {
     tablet: 35,
     desktop: 50,
   },
-  trail: {
-    maxPoints: { mobile: 5, tablet: 6, desktop: 8 },
-    threshold: { mobile: 10, desktop: 5 },
-    duration: 300,
-  },
-  cursor: {
-    baseSize: { mobile: 80, desktop: 120 },
-    sizeIncrement: { mobile: 5, desktop: 10 },
-  },
-  mask: {
-    updateInterval: 32,
-  },
 } as const;

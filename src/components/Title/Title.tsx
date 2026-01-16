@@ -1,8 +1,17 @@
+import { useParallax } from "../../hooks/useParallax";
 import SplitText from "../SplitText/SplitText";
 
 const Title = () => {
+  const { getTransform } = useParallax();
+
   return (
-    <div className="relative w-full h-full flex flex-col justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 md:py-16 lg:py-20 z-20">
+    <div
+      className="relative w-full h-full flex flex-col justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 md:py-16 lg:py-20 z-20 transition-transform duration-75 ease-out"
+      style={{
+        transform: getTransform(0.8, 0.8),
+        willChange: "transform",
+      }}
+    >
       <div className="flex-1 flex flex-col justify-center items-center w-full max-w-7xl mx-auto">
         <div className="w-full text-center mb-2 sm:mb-4 md:mb-6">
           <h1 className="font-jaro text-white font-black leading-[0.9] sm:leading-[0.85] tracking-tighter uppercase drop-shadow-lg select-none pointer-events-none text-[3rem] sm:text-[5rem] md:text-[7rem] lg:text-[10rem] xl:text-[12rem] 2xl:text-[14rem] px-2 sm:px-4">
