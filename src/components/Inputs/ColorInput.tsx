@@ -12,7 +12,7 @@ const ColorInput = ({ label, value, onChange }: ColorInputProps) => (
         type="color"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-12 h-12 rounded-lg cursor-pointer border-2 border-white/20 bg-transparent"
+        className="size-12 rounded-lg cursor-pointer border-2 border-white/20 bg-transparent"
       />
       <input
         type="text"

@@ -1,5 +1,6 @@
-import { useEffect, useState, useCallback, RefObject } from "react";
-import { CoverSettings, CANVAS_SIZE } from "../constants/cover";
+import { RefObject, useCallback, useEffect, useState } from "react";
+import { CANVAS_SIZE, CoverSettings } from "../constants/cover";
+import { drawPattern } from "../utils/patterns";
 
 export const useCanvasCover = (
   canvasRef: RefObject<HTMLCanvasElement | null>,
@@ -35,6 +36,8 @@ export const useCanvasCover = (
     ctx.fillStyle = settings.bgColor;
     ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
+    drawPattern(ctx, settings.pattern);
+
     if (centerImg) {
       const imgSize = CANVAS_SIZE * 0.7;
       const x = (CANVAS_SIZE - imgSize) / 2;
@@ -46,11 +49,6 @@ export const useCanvasCover = (
       ctx.clip();
       ctx.drawImage(centerImg, x, y, imgSize, imgSize);
       ctx.restore();
-
-      ctx.fillStyle = `rgba(0, 0, 0, ${settings.overlayOpacity})`;
-      ctx.beginPath();
-      ctx.roundRect(x, y, imgSize, imgSize, 12);
-      ctx.fill();
     }
 
     if (paeImage) {

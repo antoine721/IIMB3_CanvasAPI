@@ -1,18 +1,57 @@
+export type PatternType =
+  | "none"
+  | "waves"
+  | "lines"
+  | "squares"
+  | "dots"
+  | "diagonal"
+  | "grid"
+  | "circles"
+  | "triangles"
+  | "hexagons";
+
+export interface PatternSettings {
+  type: PatternType;
+  color: string;
+  opacity: number;
+  scale: number;
+}
+
 export interface CoverSettings {
   bgColor: string;
   borderColor: string;
   borderWidth: number;
   centerImage: string;
-  overlayOpacity: number;
+  pattern: PatternSettings;
 }
 
-export const DEFAULT_COVER_SETTINGS: CoverSettings = {
-  bgColor: "#1a1a2e",
-  borderColor: "#ffffff",
-  borderWidth: 8,
-  centerImage: "/jul.png",
-  overlayOpacity: 0.3,
+export const DEFAULT_PATTERN_SETTINGS: PatternSettings = {
+  type: "none",
+  color: "#ffffff",
+  opacity: 0.15,
+  scale: 1,
 };
+
+export const DEFAULT_COVER_SETTINGS: CoverSettings = {
+  bgColor: "#000000",
+  borderColor: "#ffffff",
+  borderWidth: 2,
+  centerImage: "/jul.png",
+  pattern: DEFAULT_PATTERN_SETTINGS,
+};
+
+export const PATTERN_OPTIONS: { type: PatternType; name: string }[] = [
+  { type: "none", name: "None" },
+  { type: "waves", name: "Waves" },
+  { type: "lines", name: "Lines" },
+  { type: "squares", name: "Squares" },
+  { type: "dots", name: "Dots" },
+  { type: "diagonal", name: "Diagonal" },
+  { type: "grid", name: "Grid" },
+  { type: "circles", name: "Circles" },
+  { type: "triangles", name: "Triangles" },
+  { type: "hexagons", name: "Hexagons" },
+];
 
 export const AVAILABLE_IMAGES = [
   { name: "Jul", src: "/jul.png" },
