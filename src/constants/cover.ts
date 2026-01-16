@@ -56,7 +56,6 @@ export const PATTERN_OPTIONS: { type: PatternType; name: string }[] = [
 export const AVAILABLE_IMAGES = [
   { name: "Jul", src: "/jul.png" },
   { name: "Background", src: "/background.png" },
-  { name: "New BG", src: "/newbg.png" },
 ] as const;
 
 export const COVER_PRESETS = [

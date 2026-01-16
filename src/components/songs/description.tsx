@@ -24,7 +24,10 @@ export default function Descriptions({
             key={track.title}
             className="bg-[#b900ff] flex justify-between items-center px-[10%] transition-[clip-path] duration-[400ms] [&>p:first-of-type]:text-[#010101] [&>p:first-of-type]:uppercase [&>p:first-of-type]:font-bold [&>p:first-of-type]:text-[8vw] [&>p:first-of-type]:leading-[7.5vw] [&>p:first-of-type]:m-0 [&>p:first-of-type]:relative [&>p:first-of-type]:z-[1]"
             style={{
-              clipPath: selectedSong == i ? "inset(0 0 0)" : "inset(50% 0 50%",
+              clipPath:
+                selectedSong == i || isCurrentlyPlaying
+                  ? "inset(0 0 0)"
+                  : "inset(50% 0 50%",
             }}
           >
             {/* Play/Pause Indicator */}
