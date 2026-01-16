@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { PARALLAX_CONFIG } from "../constants/parallax";
 import { useParallax } from "../hooks/use-parallax";
 
@@ -27,15 +27,13 @@ export default function ParallaxBackground() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const layers = useMemo(() => PARALLAX_CONFIG.layers, []);
-
   if (!isInHomeSection) {
     return null;
   }
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {layers.map((layer, index) => (
+      {PARALLAX_CONFIG.layers.map((layer, index) => (
         <div
           key={`layer-${index}`}
           className="absolute inset-0 flex items-center justify-center transition-transform duration-75 ease-out"

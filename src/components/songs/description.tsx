@@ -18,30 +18,29 @@ export default function Descriptions({
     <div className="absolute top-[3px] h-full w-full z-[2] pointer-events-none">
       {tracks.map((track, i) => {
         const isCurrentlyPlaying = isPlaying && currentTrackIndex === i;
+        const isActive = selectedSong === i || isCurrentlyPlaying;
 
         return (
           <div
             key={track.title}
-            className="bg-[#b900ff] flex justify-between items-center px-[10%] transition-[clip-path] duration-[400ms] [&>p:first-of-type]:text-[#010101] [&>p:first-of-type]:uppercase [&>p:first-of-type]:font-bold [&>p:first-of-type]:text-[8vw] [&>p:first-of-type]:leading-[7.5vw] [&>p:first-of-type]:m-0 [&>p:first-of-type]:relative [&>p:first-of-type]:z-[1]"
+            className="bg-[#b900ff] flex justify-between items-center px-[10%] transition-[clip-path] duration-[400ms]"
             style={{
-              clipPath:
-                selectedSong == i || isCurrentlyPlaying
-                  ? "inset(0 0 0)"
-                  : "inset(50% 0 50%",
+              clipPath: isActive ? "inset(0 0 0)" : "inset(50% 0 50%)",
             }}
           >
-            {/* Play/Pause Indicator */}
             <span
-              className="flex items-center justify-center mr-[2vw]"
+              className="flex items-center justify-center mr-4 sm:mr-[2vw]"
               aria-hidden="true"
             >
               {isCurrentlyPlaying ? (
-                <LuPause className="w-[3vw] h-[3vw] text-[#010101]" />
+                <LuPause className="size-6 sm:size-[clamp(1.5rem,3vw,3rem)] text-[#010101]" />
               ) : (
-                <LuPlay className="w-[3vw] h-[3vw] text-[#010101]" />
+                <LuPlay className="size-6 sm:size-[clamp(1.5rem,3vw,3rem)] text-[#010101]" />
               )}
             </span>
-            <p className="font-jaro">{track.title}</p>;
+            <p className="font-jaro text-[#010101] uppercase font-bold m-0 relative z-[1] text-[clamp(2rem,8vw,6rem)] leading-[0.95]">
+              {track.title}
+            </p>
           </div>
         );
       })}

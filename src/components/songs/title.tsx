@@ -45,6 +45,12 @@ interface TitleProps {
   onTrackSelect: (index: number) => void;
 }
 
+const titleStyles = {
+  base: "font-jaro uppercase font-bold m-0 text-[clamp(2rem,8vw,6rem)] leading-[0.95]",
+  front: "inline-block text-[#f9e0ff] relative z-[2]",
+  back: "block absolute text-[#3f2549] top-0 z-[1]",
+};
+
 function Title({
   track,
   index,
@@ -76,11 +82,18 @@ function Title({
         onBlur={() => setSelectedSong(null)}
         onMouseOver={() => setSelectedSong(index)}
         onMouseLeave={() => setSelectedSong(null)}
-        className="font-jaro relative inline-block pl-[10%] text-left cursor-pointer bg-transparent border-none w-full [&>p:first-of-type]:inline-block [&>p:first-of-type]:text-[#f9e0ff] [&>p:first-of-type]:uppercase [&>p:first-of-type]:font-bold [&>p:first-of-type]:text-[8vw] [&>p:first-of-type]:leading-[7.5vw] [&>p:first-of-type]:m-0 [&>p:first-of-type]:relative [&>p:first-of-type]:z-[2] [&>p:nth-of-type(2)]:block [&>p:nth-of-type(2)]:absolute [&>p:nth-of-type(2)]:text-[#3f2549] [&>p:nth-of-type(2)]:top-0 [&>p:nth-of-type(2)]:z-[1] [&>p:nth-of-type(2)]:uppercase [&>p:nth-of-type(2)]:font-bold [&>p:nth-of-type(2)]:text-[8vw] [&>p:nth-of-type(2)]:leading-[7.5vw] [&>p:nth-of-type(2)]:m-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        className="font-jaro relative inline-block pl-[10%] text-left cursor-pointer bg-transparent border-none w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
         aria-label={`Play ${track.title}`}
       >
-        <motion.p style={{ clipPath: clip }}>{track.title}</motion.p>
-        <p aria-hidden="true">{track.title}</p>
+        <motion.p
+          className={`${titleStyles.base} ${titleStyles.front}`}
+          style={{ clipPath: clip }}
+        >
+          {track.title}
+        </motion.p>
+        <p className={`${titleStyles.base} ${titleStyles.back}`} aria-hidden="true">
+          {track.title}
+        </p>
       </button>
     </div>
   );
