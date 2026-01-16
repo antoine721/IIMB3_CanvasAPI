@@ -36,7 +36,7 @@ export default function AnimatedTitle({ title, isPlaying }: Props) {
 
 			{/* Texte principal avec effet de glitch */}
 			<motion.div
-				className="relative z-10 text-white font-extrabold leading-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
+				className="relative z-10 text-white font-extrabold leading-tight text-lg sm:text-xl md:text-2xl lg:text-3xl"
 				key={title}
 				initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
 				animate={{

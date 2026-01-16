@@ -1,8 +1,8 @@
-import ParallaxBackground from "../ParallaxBackground/ParallaxBackground";
-import SocialMedia from "../SocialMedia/SocialMedia";
-import Title from "../Title/Title";
+import ParallaxBackground from "../parallax-background";
+import SocialMedia from "../social-media";
+import Title from "../title";
 
-const HomeView = () => {
+export default function HomeSection() {
   return (
     <section
       id="home"
@@ -18,6 +18,4 @@ const HomeView = () => {
       </div>
     </section>
   );
-};
-
-export default HomeView;
+}

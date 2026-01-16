@@ -141,6 +141,44 @@ body {
   opacity: 0;
 }
 
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .section-entering,
+  .section-exiting,
+  .content-entering,
+  .content-exiting {
+    animation: none;
+  }
+
+  .section-entering,
+  .section-entered,
+  .content-entering,
+  .content-entered {
+    opacity: 1;
+    transform: none;
+  }
+
+  .section-exiting,
+  .section-exited,
+  .content-exiting,
+  .content-exited {
+    opacity: 0;
+    transform: none;
+  }
+}
+
 /* Scrollbar personnalisée */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;

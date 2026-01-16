@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { useEffect, useRef } from "react";
+import { formatTime } from "../../hooks/use-playlist-audio";
 
 type Props = {
 	currentTime: number;
@@ -23,13 +24,6 @@ export default function ProgressBar({
 			sliderRef.current.style.setProperty("--progress", `${progress}%`);
 		}
 	}, [progress, isPlaying]);
-
-	const formatTime = (seconds: number) => {
-		if (!isFinite(seconds)) return "0:00";
-		const mins = Math.floor(seconds / 60);
-		const secs = Math.floor(seconds % 60);
-		return `${mins}:${secs.toString().padStart(2, "0")}`;
-	};
 
 	return (
 		<div className="w-full space-y-2">

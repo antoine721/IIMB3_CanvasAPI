@@ -13,6 +13,8 @@ export function formatTime(seconds: number) {
   return `${m}:${String(r).padStart(2, "0")}`;
 }
 
+export type PlaylistAudioState = ReturnType<typeof usePlaylistAudio>;
+
 export function usePlaylistAudio(tracks: Track[]) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [index, setIndex] = useState(0);

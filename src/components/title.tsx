@@ -1,14 +1,14 @@
-import { useParallax } from "../../hooks/useParallax";
-import SplitText from "../SplitText/SplitText";
+import { useParallax } from "../hooks/use-parallax";
+import SplitText from "./split-text/split-text";
 
-const Title = () => {
+export default function Title() {
   const { getTransform } = useParallax();
 
   return (
     <div
       className="relative w-full h-full flex flex-col justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 md:py-16 lg:py-20 z-20 transition-transform duration-75 ease-out"
       style={{
-        transform: getTransform(0.8, 0.8),
+        transform: getTransform(1.5, 0.8),
         willChange: "transform",
       }}
     >
@@ -33,6 +33,4 @@ const Title = () => {
       <div className="h-4 sm:h-6 md:h-8 lg:h-12" />
     </div>
   );
-};
-
-export default Title;
+}
