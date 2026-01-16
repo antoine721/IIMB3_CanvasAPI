@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { motion } from "motion/react";
 
 interface SplitTextProps {
@@ -13,18 +14,23 @@ const SplitText = ({
   delay = 0,
   splitBy = "letters",
 }: SplitTextProps) => {
-  const items =
-    splitBy === "letters" ? children.split("") : children.split(" ");
+  const items = useMemo(() => {
+    if (splitBy === "letters") {
+      return children.split("");
+    }
+    return children.split(" ");
+  }, [children, splitBy]);
 
   return (
     <span className={className}>
       {items.map((item, index) => {
         const isSpace = item === " ";
         const content = isSpace ? "\u00A0" : item;
+        const key = `${item}-${index}`;
 
         return (
           <motion.span
-            key={index}
+            key={key}
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
@@ -35,6 +41,7 @@ const SplitText = ({
             className="inline-block"
           >
             {content}
+            {splitBy === "words" && index < items.length - 1 && "\u00A0"}
           </motion.span>
         );
       })}

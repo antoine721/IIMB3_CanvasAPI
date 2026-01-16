@@ -1,27 +1,166 @@
-import { useGLTF } from "@react-three/drei";
-
-import coverModelUrl from "../../Meshy_AI_Album_Cover_Art_0114182349_texture.glb?url";
-
-const MODEL_URL = coverModelUrl;
+import { useRef, useState } from "react";
+import {
+  AVAILABLE_IMAGES,
+  COVER_PRESETS,
+  CoverSettings,
+  DEFAULT_COVER_SETTINGS,
+} from "../../constants/cover";
+import { useCanvasCover } from "../../hooks/useCanvasCover";
+import { ColorInput, RangeInput } from "../Inputs";
 
 const CoverView = () => {
-	return (
-		<section
-			id="cover"
-			className={`snap-section relative min-h-screen flex items-center justify-center z-10 bg-black`}
-		>
-			<div className={`text-white text-center px-4 sm:px-6 md:px-8 `}>
-				<h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8">
-					COVER
-				</h2>
-				<p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">
-					Section Cover
-				</p>
-			</div>
-		</section>
-	);
-};
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [settings, setSettings] = useState<CoverSettings>(
+    DEFAULT_COVER_SETTINGS
+  );
+  const { handleDownload } = useCanvasCover(canvasRef, settings);
 
-useGLTF.preload(MODEL_URL);
+  const updateSetting = <K extends keyof CoverSettings>(
+    key: K,
+    value: CoverSettings[K]
+  ) => {
+    setSettings((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const applyPreset = (preset: (typeof COVER_PRESETS)[number]) => {
+    setSettings((prev) => ({
+      ...prev,
+      bgColor: preset.bgColor,
+      borderColor: preset.borderColor,
+    }));
+  };
+
+  return (
+    <section
+      id="cover"
+      className="snap-section relative min-h-screen flex items-center justify-center z-10 bg-black"
+    >
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 py-8">
+        <div className="flex flex-col lg:flex-row gap-8 items-start justify-between">
+          <div className="flex flex-col items-center gap-4">
+            <div className="relative overflow-hidden transform -rotate-3 duration-300">
+              <canvas
+                ref={canvasRef}
+                className="size-[300px] sm:size-[350px] md:size-[400px]"
+              />
+            </div>
+            <button
+              onClick={handleDownload}
+              className="px-6 py-2.5 bg-[#e94560] hover:bg-[#d63d56] text-white font-medium rounded-lg transition-colors flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download
+            </button>
+          </div>
+
+          <div className="w-full lg:w-80 space-y-6">
+            <h3 className="text-xl font-bold text-white border-b border-white/20 pb-3">
+              Customize
+            </h3>
+
+            <div className="space-y-4">
+              <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+                Colors
+              </h4>
+              <ColorInput
+                label="Background"
+                value={settings.bgColor}
+                onChange={(v) => updateSetting("bgColor", v)}
+              />
+              <ColorInput
+                label="Border"
+                value={settings.borderColor}
+                onChange={(v) => updateSetting("borderColor", v)}
+              />
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+                Effects
+              </h4>
+              <RangeInput
+                label="Border Width"
+                value={settings.borderWidth}
+                onChange={(v) => updateSetting("borderWidth", v)}
+                min={0}
+                max={100}
+              />
+              <RangeInput
+                label="Image Overlay"
+                value={settings.overlayOpacity}
+                onChange={(v) => updateSetting("overlayOpacity", v)}
+                min={0}
+                max={1}
+                step={0.1}
+              />
+            </div>
+
+            <div className="space-y-3">
+              <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+                Center Image
+              </h4>
+              <div className="grid grid-cols-3 gap-2">
+                {AVAILABLE_IMAGES.map((img) => (
+                  <button
+                    key={img.src}
+                    onClick={() => updateSetting("centerImage", img.src)}
+                    className={`relative rounded-lg overflow-hidden border-2 transition-all ${
+                      settings.centerImage === img.src
+                        ? "border-[#e94560] scale-105"
+                        : "border-white/20 hover:border-white/40"
+                    }`}
+                  >
+                    <img
+                      src={img.src}
+                      alt={img.name}
+                      className="w-full h-16 object-cover"
+                    />
+                    <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs py-1 text-center">
+                      {img.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+                Presets
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {COVER_PRESETS.map((preset) => (
+                  <button
+                    key={preset.name}
+                    onClick={() => applyPreset(preset)}
+                    className="px-3 py-1.5 rounded-lg text-white text-sm font-medium hover:opacity-80 transition-opacity"
+                    style={{
+                      background: `linear-gradient(to right, ${preset.bgColor}, ${preset.borderColor})`,
+                    }}
+                  >
+                    {preset.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default CoverView;
