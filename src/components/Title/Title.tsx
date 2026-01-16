@@ -1,16 +1,8 @@
-import SplitText from '../SplitText/SplitText';
+import SplitText from "../SplitText/SplitText";
 
 const Title = () => {
   return (
     <div className="relative w-full h-full flex flex-col justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 md:py-16 lg:py-20 z-20">
-      <div className="w-full flex justify-center md:justify-end mb-4 sm:mb-6 md:mb-0">
-        <h2 className="font-jaro text-white text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl 2xl:text-3xl font-bold tracking-widest">
-          <SplitText splitBy="letters" delay={0.3}>
-            61/72/2097
-          </SplitText>
-        </h2>
-      </div>
-
       <div className="flex-1 flex flex-col justify-center items-center w-full max-w-7xl mx-auto">
         <div className="w-full text-center mb-2 sm:mb-4 md:mb-6">
           <h1 className="font-jaro text-white font-black leading-[0.9] sm:leading-[0.85] tracking-tighter uppercase drop-shadow-lg select-none pointer-events-none text-[3rem] sm:text-[5rem] md:text-[7rem] lg:text-[10rem] xl:text-[12rem] 2xl:text-[14rem] px-2 sm:px-4">
