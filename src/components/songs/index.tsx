@@ -6,12 +6,16 @@ import Titles from "./title";
 interface SongsProps {
   scrollContainerRef: RefObject<HTMLDivElement | null>;
   tracks: Track[];
+  currentTrackIndex: number;
+  isPlaying: boolean;
   onTrackSelect: (index: number) => void;
 }
 
 export function Songs({
   scrollContainerRef,
   tracks,
+  currentTrackIndex,
+  isPlaying,
   onTrackSelect,
 }: SongsProps) {
   const [selectedSong, setSelectedSong] = useState<number | null>(null);
@@ -23,7 +27,12 @@ export function Songs({
         scrollContainerRef={scrollContainerRef}
         onTrackSelect={onTrackSelect}
       />
-      <Descriptions tracks={tracks} selectedSong={selectedSong} />
+      <Descriptions
+        tracks={tracks}
+        selectedSong={selectedSong}
+        currentTrackIndex={currentTrackIndex}
+        isPlaying={isPlaying}
+      />
     </div>
   );
 }

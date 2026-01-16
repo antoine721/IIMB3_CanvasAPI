@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import {
   AVAILABLE_IMAGES,
   COVER_PRESETS,
@@ -92,33 +93,92 @@ export default function CoverSection() {
   return (
     <section
       id="cover"
-      className="snap-section relative min-h-screen flex items-center justify-center z-10 pt-40 bg-black"
+      className="snap-section relative min-h-screen flex flex-col items-center z-10 pt-24 sm:pt-32 pb-20 bg-black overflow-hidden"
     >
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8 items-start justify-between">
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative overflow-hidden transform -rotate-3 duration-300">
-              <canvas
-                ref={canvasRef}
-                className="size-[300px] sm:size-[350px] md:size-[400px]"
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#b900ff]/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-[#e94560]/10 rounded-full blur-[120px]" />
+      </div>
+
+      {/* Section header */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 mb-12 sm:mb-16"
+      >
+        <div className="flex items-center gap-4 mb-4">
+          <span className="h-px flex-1 bg-gradient-to-r from-transparent via-[#b900ff]/50 to-transparent" />
+          <span className="text-[#b900ff] text-xs sm:text-sm font-bold tracking-[0.3em] uppercase">
+            Create
+          </span>
+          <span className="h-px flex-1 bg-gradient-to-r from-transparent via-[#b900ff]/50 to-transparent" />
+        </div>
+        <h2 className="font-jaro text-center text-white font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl uppercase tracking-tight">
+          Your Cover
+        </h2>
+        <p className="text-center text-white/50 mt-4 max-w-md mx-auto text-sm sm:text-base">
+          Customize and download your unique album cover
+        </p>
+      </motion.div>
+
+      <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center lg:items-start justify-center">
+          {/* Canvas preview */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: -3 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col items-center gap-6"
+          >
+            <div className="relative group">
+              {/* Glow effect behind canvas */}
+              <div
+                className="absolute -inset-4 rounded-2xl opacity-50 blur-xl transition-opacity duration-500 group-hover:opacity-75"
+                style={{
+                  background: `linear-gradient(135deg, ${settings.bgColor}40, ${settings.borderColor}40)`,
+                }}
               />
+              {/* Canvas container */}
+              <div className="relative overflow-hidden rounded-xl shadow-2xl ring-1 ring-white/10">
+                <canvas
+                  ref={canvasRef}
+                  className="size-[280px] sm:size-[320px] md:size-[380px] lg:size-[400px]"
+                />
+              </div>
             </div>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleDownload}
-              className="px-6 py-2.5 bg-[#e94560] hover:bg-[#d63d56] text-white font-medium rounded-lg transition-colors flex items-center gap-2"
+              className="px-8 py-3 bg-gradient-to-r from-[#e94560] to-[#b900ff] hover:from-[#d63d56] hover:to-[#a000e0] text-white font-bold uppercase tracking-wider rounded-lg transition-all duration-300 flex items-center gap-3 shadow-lg shadow-[#e94560]/25"
             >
               {DownloadIcon}
               Download
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
 
-          <div className="w-full max-w-96 space-y-6">
-            <h3 className="text-xl font-bold text-white border-b border-white/20 pb-3">
-              Customize
-            </h3>
+          {/* Controls panel */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="w-full max-w-md lg:max-w-sm space-y-6 bg-white/[0.02] backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+          >
+            <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+              <div className="w-2 h-2 rounded-full bg-[#b900ff]" />
+              <h3 className="text-lg font-bold text-white uppercase tracking-wider">
+                Customize
+              </h3>
+            </div>
 
+            {/* Colors section */}
             <div className="space-y-4">
-              <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+              <h4 className="text-[#f9e0ff] text-xs font-semibold uppercase tracking-[0.2em]">
                 Colors
               </h4>
               <ColorInput
@@ -133,8 +193,9 @@ export default function CoverSection() {
               />
             </div>
 
+            {/* Effects section */}
             <div className="space-y-4">
-              <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+              <h4 className="text-[#f9e0ff] text-xs font-semibold uppercase tracking-[0.2em]">
                 Effects
               </h4>
               <RangeInput
@@ -146,14 +207,15 @@ export default function CoverSection() {
               />
             </div>
 
+            {/* Pattern section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+                <h4 className="text-[#f9e0ff] text-xs font-semibold uppercase tracking-[0.2em]">
                   Pattern
                 </h4>
                 <button
                   onClick={randomizePattern}
-                  className="px-3 py-1 text-xs bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors flex items-center gap-1.5"
+                  className="px-3 py-1.5 text-xs bg-[#b900ff]/20 hover:bg-[#b900ff]/30 text-[#f9e0ff] rounded-lg transition-colors flex items-center gap-1.5 border border-[#b900ff]/30"
                 >
                   {RandomIcon}
                   Random
@@ -164,7 +226,7 @@ export default function CoverSection() {
                 onChange={(v) => updatePatternSetting("type", v)}
               />
               {settings.pattern.type !== "none" && (
-                <>
+                <div className="space-y-4 pl-3 border-l-2 border-[#b900ff]/30">
                   <ColorInput
                     label="Pattern Color"
                     value={settings.pattern.color}
@@ -186,12 +248,13 @@ export default function CoverSection() {
                     max={2}
                     step={0.1}
                   />
-                </>
+                </div>
               )}
             </div>
 
+            {/* Center Image section */}
             <div className="space-y-3">
-              <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+              <h4 className="text-[#f9e0ff] text-xs font-semibold uppercase tracking-[0.2em]">
                 Center Image
               </h4>
               <div className="grid grid-cols-3 gap-2">
@@ -199,10 +262,10 @@ export default function CoverSection() {
                   <button
                     key={img.src}
                     onClick={() => updateSetting("centerImage", img.src)}
-                    className={`relative rounded-lg overflow-hidden border-2 transition-all ${
+                    className={`relative rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                       settings.centerImage === img.src
-                        ? "border-[#e94560] scale-105"
-                        : "border-white/20 hover:border-white/40"
+                        ? "border-[#b900ff] scale-105 shadow-lg shadow-[#b900ff]/25"
+                        : "border-white/10 hover:border-[#b900ff]/50"
                     }`}
                   >
                     <img
@@ -210,9 +273,9 @@ export default function CoverSection() {
                       alt={img.name}
                       width={100}
                       height={64}
-                      className="w-full h-16 object-cover"
+                      className="w-full h-14 object-cover"
                     />
-                    <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs py-1 text-center">
+                    <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent text-white text-[10px] py-1 text-center font-medium">
                       {img.name}
                     </span>
                   </button>
@@ -220,8 +283,9 @@ export default function CoverSection() {
               </div>
             </div>
 
+            {/* Presets section */}
             <div className="space-y-3">
-              <h4 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+              <h4 className="text-[#f9e0ff] text-xs font-semibold uppercase tracking-[0.2em]">
                 Presets
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -229,9 +293,9 @@ export default function CoverSection() {
                   <button
                     key={preset.name}
                     onClick={() => applyPreset(preset)}
-                    className="px-3 py-1.5 rounded-lg text-white text-sm font-medium hover:opacity-80 transition-opacity"
+                    className="px-3 py-1.5 rounded-lg text-white text-xs font-bold uppercase tracking-wider hover:scale-105 transition-all duration-300 shadow-md"
                     style={{
-                      background: `linear-gradient(to right, ${preset.bgColor}, ${preset.borderColor})`,
+                      background: `linear-gradient(135deg, ${preset.bgColor}, ${preset.borderColor})`,
                     }}
                   >
                     {preset.name}
@@ -239,7 +303,7 @@ export default function CoverSection() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

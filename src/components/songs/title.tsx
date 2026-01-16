@@ -65,7 +65,10 @@ function Title({
   const clip = useMotionTemplate`inset(0 ${clipProgress}% 0 0)`;
 
   return (
-    <div ref={container} className="border-b border-[rgba(168,155,226,0.25)] relative z-[2]">
+    <div
+      ref={container}
+      className="border-b border-[rgba(168,155,226,0.25)] relative z-[2]"
+    >
       <button
         type="button"
         onClick={() => onTrackSelect(index)}
@@ -73,7 +76,7 @@ function Title({
         onBlur={() => setSelectedSong(null)}
         onMouseOver={() => setSelectedSong(index)}
         onMouseLeave={() => setSelectedSong(null)}
-        className="relative inline-block pl-[10%] text-left cursor-pointer bg-transparent border-none w-full [&>p:first-of-type]:inline-block [&>p:first-of-type]:text-[#f9e0ff] [&>p:first-of-type]:uppercase [&>p:first-of-type]:font-bold [&>p:first-of-type]:text-[8vw] [&>p:first-of-type]:leading-[7.5vw] [&>p:first-of-type]:m-0 [&>p:first-of-type]:relative [&>p:first-of-type]:z-[2] [&>p:nth-of-type(2)]:block [&>p:nth-of-type(2)]:absolute [&>p:nth-of-type(2)]:text-[#3f2549] [&>p:nth-of-type(2)]:top-0 [&>p:nth-of-type(2)]:z-[1] [&>p:nth-of-type(2)]:uppercase [&>p:nth-of-type(2)]:font-bold [&>p:nth-of-type(2)]:text-[8vw] [&>p:nth-of-type(2)]:leading-[7.5vw] [&>p:nth-of-type(2)]:m-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        className="font-jaro relative inline-block pl-[10%] text-left cursor-pointer bg-transparent border-none w-full [&>p:first-of-type]:inline-block [&>p:first-of-type]:text-[#f9e0ff] [&>p:first-of-type]:uppercase [&>p:first-of-type]:font-bold [&>p:first-of-type]:text-[8vw] [&>p:first-of-type]:leading-[7.5vw] [&>p:first-of-type]:m-0 [&>p:first-of-type]:relative [&>p:first-of-type]:z-[2] [&>p:nth-of-type(2)]:block [&>p:nth-of-type(2)]:absolute [&>p:nth-of-type(2)]:text-[#3f2549] [&>p:nth-of-type(2)]:top-0 [&>p:nth-of-type(2)]:z-[1] [&>p:nth-of-type(2)]:uppercase [&>p:nth-of-type(2)]:font-bold [&>p:nth-of-type(2)]:text-[8vw] [&>p:nth-of-type(2)]:leading-[7.5vw] [&>p:nth-of-type(2)]:m-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
         aria-label={`Play ${track.title}`}
       >
         <motion.p style={{ clipPath: clip }}>{track.title}</motion.p>

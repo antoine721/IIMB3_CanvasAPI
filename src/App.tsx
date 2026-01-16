@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Footer from "./components/footer";
 import CoverSection from "./components/sections/cover-section";
 import HomeSection from "./components/sections/home-section";
@@ -8,7 +9,16 @@ import { usePlaylistAudio } from "./hooks/use-playlist-audio";
 
 export default function App() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const songsSectionRef = useRef<HTMLDivElement>(null);
   const audioState = usePlaylistAudio(TRACKS);
+
+  const { scrollYProgress } = useScroll({
+    target: songsSectionRef,
+    container: scrollContainerRef,
+    offset: ["start 0.6", "center start"],
+  });
+
+  const julMotoX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <div
@@ -16,16 +26,28 @@ export default function App() {
       className="h-screen overflow-y-scroll overflow-x-hidden"
     >
       <HomeSection />
-      <div className="relative bg-black flex items-center justify-center z-20 pt-20">
+      <div
+        ref={songsSectionRef}
+        className="relative bg-black flex items-center justify-center z-20 pt-20"
+      >
         <Songs
           scrollContainerRef={scrollContainerRef}
           tracks={TRACKS}
+          currentTrackIndex={audioState.index}
+          isPlaying={audioState.isPlaying}
           onTrackSelect={(index: number) => {
-            audioState.setIndex(index);
-            void audioState.play();
+            if (audioState.index === index && audioState.isPlaying) {
+              audioState.pause();
+            } else {
+              audioState.setIndex(index);
+              void audioState.play();
+            }
           }}
         />
-        <div className="absolute right-0 bottom-0 -z-10 w-full max-w-6xl translate-y-1/5">
+        <motion.div
+          className="absolute right-0 bottom-0 -z-10 w-full max-w-6xl translate-y-1/5"
+          style={{ x: julMotoX }}
+        >
           <img
             src="/julmoto.png"
             alt=""
@@ -35,7 +57,7 @@ export default function App() {
             loading="lazy"
             className="grayscale object-cover"
           />
-        </div>
+        </motion.div>
       </div>
       <CoverSection />
       <Footer />
